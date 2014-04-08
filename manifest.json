@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "ChatWork Coders",
+  "description": "Adds things that coders like to ChatWork.",
+  "version": "1",
+
+  "content_scripts": [
+    {
+      "matches": ["https://kcw.kddi.ne.jp/*"],
+      "js": ["content.js", "lib/highlight.pack.js"],
+      "css": ["content.css", "styles/monokai.css"]
+    }
+  ]
+}
