@@ -71,6 +71,7 @@
   function processNode(pNode) {
     var tParts = pNode.textContent.split('```');
     var tPart, tToAdd;
+    var tIndex = -1;
 
     var i;
     var il = tParts.length;
@@ -92,6 +93,14 @@
       } else {
         if (tPart.length > 0) {
           tToAdd = document.createElement('x-chatworkcoder');
+
+          if (tPart[0] === '|') {
+            // Set the language
+            tIndex = tPart.indexOf(' ');
+            tToAdd.className = 'language-' + tPart.substring(1, tIndex);
+            tPart = tPart.substr(tIndex + 1);
+          }
+
           tToAdd.textContent = tPart;
           hljs.highlightBlock(tToAdd);
 
