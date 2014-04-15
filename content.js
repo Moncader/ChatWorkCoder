@@ -37,6 +37,15 @@
     var tNode;
     var tPreList, tPreListNode, tPreNodes, tPreNode;
 
+    // 0 = Not checked
+    // 1 = Not needed
+    // 2 = Needed
+    var tScrollStatus = 0;
+
+    function checkScroll() {
+      tScrollStatus = (mContainer.scrollHeight - (mContainer.scrollTop + mContainer.offsetHeight)) === 0 ? 2 : 1;
+    }
+
     for (i = 0, il = pMutations.length; i < il; i++) {
       tNodes = pMutations[i].addedNodes;
 
@@ -58,13 +67,21 @@
                 continue;
               }
 
+              if (tScrollStatus === 0) {
+                // Delay this as much as possible
+                // to avoid unneeded layouts.
+                checkScroll();
+              }
+
               processNode(tPreNode);
             }
           }
         }
       }
 
-      mContainer.lastElementChild.scrollIntoViewIfNeeded();
+      if (tScrollStatus === 2) {
+        mContainer.lastElementChild.scrollIntoViewIfNeeded();
+      }
     }
   }
 
